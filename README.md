@@ -1,5 +1,7 @@
 # nistula-technical-assessment
 
+## LIve URL: https://nistula-technical-assessment-5eg6.onrender.com/docs
+
 ## Part 1 — Guest message handler
 ### Run
 1. Create a virtual env (already present in this folder if you kept `venv/`).

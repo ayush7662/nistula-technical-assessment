@@ -1,5 +1,8 @@
 # nistula-technical-assessment
 
+This project is an AI-powered guest messaging automation system developed using FastAPI and PostgreSQL. It processes guest messages received from platforms like Airbnb, WhatsApp, and Booking.com through a webhook API and classifies them into categories such as pricing, availability, complaints, and special requests. Based on the query type, the system generates automated draft replies using Claude AI and applies confidence scoring with escalation logic to decide whether the response should be auto-sent or reviewed by an agent. All guest interactions are stored in the database for tracking and analysis. The complete backend is deployed on Render with live API endpoints and Swagger documentation support.
+
+
 ## LIve URL: https://nistula-technical-assessment-5eg6.onrender.com/docs
 
 ## Part 1 — Guest message handler

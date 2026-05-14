@@ -1,5 +1,5 @@
 ## A — Immediate Response (3am)
-Hi Rahul — I’m really sorry about the lack of hot water. I can escalate this immediately to the caretaker so it can be fixed right away. For tonight, we’ll also arrange an appropriate resolution/refund option once the issue is confirmed. Could you please share what time you last tried the hot water and whether the problem is in the master bathroom or all bathrooms?
+Hi Rahul — I am really sorry about the lack of hot water. I can escalate this immediately to the caretaker so it can be fixed right away. For tonight, we will also arrange an appropriate resolution/refund option once the issue is confirmed. Could you please share what time you last tried the hot water and whether the problem is in the master bathroom or all bathrooms?
 
 Why this wording: it acknowledges the issue, promises immediate escalation, avoids argumentative tone, and collects the minimum details needed to act.
 

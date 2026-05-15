@@ -49,6 +49,20 @@ The response returns:
 }
 ```
 
+
+```API Response
+{
+  "status": "success",
+  "data": {
+    "message_id": "589b5d06-c33a-4e13-8173-2844509956ab",
+    "query_type": "pre_sales_pricing",
+    "drafted_reply": "Hello! Thank you for your inquiry about Villa B1.\n\nOur room rate is **INR 18,000 per night** for up to 4 guests. If you have additional guests (up to 6 maximum), there's an extra charge of INR 2,000 per night per person.\n\nThe villa features 3 bedrooms, a private pool, and can accommodate up to 6 guests total.\n\nPlease let me know your travel dates and number of guests, and I'll be happy to provide you with the exact pricing and check availability for your stay.\n\nBest regards,\nVilla Concierge Team",
+    "confidence_score": 0.95,
+    "action": "auto_send"
+  }
+}
+```
+
 ## Part 2 — Database schema
 See `schema.sql`.
 

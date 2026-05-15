@@ -1,56 +1,167 @@
-# nistula-technical-assessment
+ # Nistula Technical Assessment
 
-This project is an AI-powered guest messaging automation system developed using FastAPI and PostgreSQL. It processes guest messages received from platforms like Airbnb, WhatsApp, and Booking.com through a webhook API and classifies them into categories such as pricing, availability, complaints, and special requests. Based on the query type, the system generates automated draft replies using Claude AI and applies confidence scoring with escalation logic to decide whether the response should be auto-sent or reviewed by an agent. All guest interactions are stored in the database for tracking and analysis. The complete backend is deployed on Render with live API endpoints and Swagger documentation support.
+An AI-powered guest messaging automation backend built using FastAPI and PostgreSQL. The system processes guest messages received from platforms like Airbnb, WhatsApp, and Booking.com through a webhook API, classifies the intent of the message, generates AI-powered draft replies using Claude AI, and applies confidence-based escalation logic for automated handling.
 
+## Features
 
-## LIve URL: https://nistula-technical-assessment-5eg6.onrender.com/docs
+* FastAPI backend with REST API endpoints
+* AI-powered guest message automation
+* Supports multiple booking platforms:
 
-## Part 1 — Guest message handler
-### Run
-1. Create a virtual env (already present in this folder if you kept `venv/`).
-2. Install deps:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Configure environment:
-   - Copy `.env.example` to `.env`
-   - Set `CLAUDE_API_KEY` and `DATABASE_URL`
-4. Start API:
-   ```bash
-   uvicorn app.main:app --reload --port 8000
-   ```
-5. Webhook endpoint:
-   - `POST /webhook/message`
+  * Airbnb
+  * WhatsApp
+  * Booking.com
+* Intelligent query classification:
 
-### Confidence scoring logic (used to set `action`)
-Location: `app/services.py` (`calculate_confidence`)
+  * Pricing
+  * Availability
+  * Complaints
+  * Special Requests
+* Automated draft reply generation using Claude AI
+* Confidence scoring and escalation workflow
+* PostgreSQL database integration
+* Live deployment on Render
+* Interactive Swagger API documentation
 
-Heuristic score in `[0, 1]`:
-- Base: `0.75`
-- +0.15 if `query_type` is `pre_sales_availability` or `pre_sales_pricing`
-- +0.05 if reply length > 80 characters
-- -0.25 if reply contains `sorry` or `unable`
+---
 
-Then `action` thresholds:
-- `auto_send` if `confidence > 0.85`
-- `agent_review` if `0.60 <= confidence <= 0.85`
-- `escalate` if `confidence < 0.60`
+# Live API
 
-### Payload contract
-Input payload matches the assignment (source/guest_name/message/timestamp/booking_ref/property_id).
-The response returns:
-```json
-{
-  "message_id": "uuid",
-  "query_type": "pre_sales_availability",
-  "drafted_reply": "...",
-  "confidence_score": 0.91,
-  "action": "auto_send"
-}
+**Swagger Docs:**
+https://nistula-technical-assessment-5eg6.onrender.com/docs
+
+---
+
+# Tech Stack
+
+* Python
+* FastAPI
+* PostgreSQL
+* SQLAlchemy
+* Claude AI API
+* Render Deployment
+
+---
+
+# Project Structure
+
+```bash
+app/
+│
+├── main.py
+├── services.py
+├── classifier.py
+├── claude_client.py
+├── db.py
+├── db_models.py
+├── models.py
+│
+schema.sql
+requirements.txt
+thinking.md
+README.md
+```
+
+---
+
+# Setup Instructions
+
+## 1. Clone Repository
+
+```bash
+git clone <your-repo-url>
+cd nistula-technical-assessment
+```
+
+---
+
+## 2. Create Virtual Environment
+
+```bash
+python -m venv venv
+```
+
+Activate environment:
+
+### Windows
+
+```bash
+venv\Scripts\activate
 ```
 
 
-```API Response
+---
+
+## 3. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+# Environment Variables
+
+Create a `.env` file and configure:
+
+```env
+CLAUDE_API_KEY=your_claude_api_key
+DATABASE_URL=your_postgresql_database_url
+```
+
+---
+
+# Run Application
+
+```bash
+uvicorn app.main:app --reload --port 8000
+```
+
+Server runs on:
+
+```bash
+http://127.0.0.1:8000
+```
+
+Swagger docs:
+
+```bash
+http://127.0.0.1:8000/docs
+```
+
+---
+
+# API Endpoint
+
+## POST `/webhook/message`
+
+Processes incoming guest messages and returns:
+
+* Query classification
+* AI-generated draft reply
+* Confidence score
+* Recommended action
+
+---
+
+# Sample Request
+
+```json
+{
+  "source": "airbnb",
+  "guest_name": "Rahul Sharma",
+  "message": "Is the villa available from April 20 to 24?",
+  "timestamp": "2026-05-13T10:00:00Z",
+  "booking_ref": "NIS-2026-1001",
+  "property_id": "villa-b1"
+}
+```
+
+---
+
+# Sample Response
+
+```json
 {
   "status": "success",
   "data": {
@@ -63,9 +174,77 @@ The response returns:
 }
 ```
 
-## Part 2 — Database schema
-See `schema.sql`.
+---
 
-## Part 3 — Thinking answers
-See `thinking.md`.
+# Confidence Scoring Logic
 
+Location: `app/services.py`
+
+## Heuristic Rules
+
+| Rule                               | Score |
+| ---------------------------------- | ----- |
+| Base score                         | 0.75  |
+| Pricing / Availability query       | +0.15 |
+| Reply length > 80 chars            | +0.05 |
+| Reply contains "sorry" or "unable" | -0.25 |
+
+---
+
+# Action Logic
+
+| Confidence Score | Action       |
+| ---------------- | ------------ |
+| > 0.85           | auto_send    |
+| 0.60 - 0.85      | agent_review |
+| < 0.60           | escalate     |
+
+Complaints are automatically escalated for safety.
+
+---
+
+# Database
+
+Guest interactions are stored in PostgreSQL for:
+
+* Tracking
+* Auditing
+* Analytics
+* Future escalation workflows
+
+Database schema available in:
+
+```bash
+schema.sql
+```
+
+---
+
+# Additional Files
+
+| File               | Purpose                  |
+| ------------------ | ------------------------ |
+| `schema.sql`       | PostgreSQL schema        |
+| `thinking.md`      | Technical design answers |
+| `services.py`      | Core processing logic    |
+| `classifier.py`    | Query classification     |
+| `claude_client.py` | Claude AI integration    |
+
+---
+
+# Deployment
+
+The backend is deployed on Render with live API endpoints.
+
+Deployment includes:
+
+* FastAPI backend
+* PostgreSQL integration
+* Swagger documentation
+* Production-ready webhook API
+
+---
+
+# Author
+
+Ayush Raj
